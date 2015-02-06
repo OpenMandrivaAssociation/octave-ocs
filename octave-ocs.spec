@@ -3,7 +3,7 @@
 Summary:	Octave package for solving DC and transient circuit equations
 Name:       octave-%{pkgname}
 Version:	0.1.1
-Release:        5
+Release:        6
 Source0:	%{pkgname}-%{version}.tar.gz
 License:	GPLv2+
 Group:		Sciences/Mathematics
