@@ -1,41 +1,38 @@
-%define	pkgname ocs
+%define octpkg ocs
 
-Summary:	Octave package for solving DC and transient circuit equations
-Name:       octave-%{pkgname}
-Version:	0.1.1
-Release:        6
-Source0:	%{pkgname}-%{version}.tar.gz
+# Exclude .oct files from provides
+%define __provides_exclude_from ^%{octpkglibdir}/.*.oct$
+
+Summary:	Package for solving DC and transient electrical circuit equations
+Name:		octave-%{octpkg}
+Version:	0.1.5
+Release:	1
+Source0:	http://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
 License:	GPLv2+
 Group:		Sciences/Mathematics
-Url:		http://octave.sourceforge.net/ocs/
-BuildRequires:  octave-devel >= 3.0.0
-BuildRequires:  pkgconfig(gl)
-BuildRequires:  pkgconfig(glu)
-Requires:       octave(api) = %{octave_api}
+Url:		https://octave.sourceforge.io/%{octpkg}/
+
+BuildRequires:	octave-devel >= 3.0.0
+
+Requires:	octave(api) = %{octave_api}
+Requires:	octave-odepkg
+
 Requires(post): octave
 Requires(postun): octave
 
 %description
-Octave package for solving DC and transient electrical circuit equations.
+Package for solving DC and transient electrical circuit equations 
+
+This package is part of external Octave-Forge collection.
 
 %prep
-%setup -q -c %{pkgname}-%{version}
-cp %{SOURCE0} .
+%setup -qcT
+
+%build
+%octave_pkg_build -T
 
 %install
-%__install -m 755 -d %{buildroot}%{_datadir}/octave/packages/
-%__install -m 755 -d %{buildroot}%{_libdir}/octave/packages/
-export OCT_PREFIX=%{buildroot}%{_datadir}/octave/packages
-export OCT_ARCH_PREFIX=%{buildroot}%{_libdir}/octave/packages
-octave -q --eval "pkg prefix $OCT_PREFIX $OCT_ARCH_PREFIX; pkg install -verbose -nodeps -local %{pkgname}-%{version}.tar.gz"
-
-tar zxf %{SOURCE0} 
-mv %{pkgname}-%{version}/COPYING .
-mv %{pkgname}-%{version}/DESCRIPTION .
-mv %{pkgname}-%{version}/README .
-mv %{pkgname}-%{version}/doc examples
-
-%clean
+%octave_pkg_install
 
 %post
 %octave_cmd pkg rebuild
@@ -47,6 +44,10 @@ mv %{pkgname}-%{version}/doc examples
 %octave_cmd pkg rebuild
 
 %files
-%doc COPYING DESCRIPTION README examples
-%{_datadir}/octave/packages/%{pkgname}-%{version}
-%{_libdir}/octave/packages/%{pkgname}-%{version}
+%dir %{octpkglibdir}
+%{octpkglibdir}/*
+%dir %{octpkgdir}
+%{octpkgdir}/*
+%doc %{octpkg}/NEWS
+%doc %{octpkg}/COPYING
+
