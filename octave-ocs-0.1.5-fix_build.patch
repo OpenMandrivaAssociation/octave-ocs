@@ -1,0 +1,260 @@
+--- a/src/Mshichmanhodgesmosfet.cc
++++ b/src/Mshichmanhodgesmosfet.cc
+@@ -105,7 +105,7 @@
+       else if (parameternames[niter] == "Tshift")
+ 	*Tshift = parameters(niter);
+       else
+-	warning ((string("Mshichmanhodgesmosfet: unknown parameter").append (parameternames[niter])).c_str ());
++	warning ("Mshichmanhodgesmosfet: unknown parameter %s", parameternames[niter].c_str());
+     
+       niter++;
+     }
+@@ -319,7 +319,7 @@
+   if (args(1).length() == args(2).length())
+     {
+       parameters     = args(1).column_vector_value();
+-      parameternames = args(2).all_strings();
++      parameternames = args(2).string_vector_value();
+     }
+   else
+     error("Mshichmanhodgesmosfet: parameters and parameternames are expected to have the same length.\n");
+@@ -329,7 +329,7 @@
+   else
+     error("Mshichmanhodgesmosfet: five external values expected.\n");
+   // Internal variables
+-  if (args(4).is_empty())
++  if (args(4).isempty())
+     {}
+   else if (args(4).length() == 5)
+     intvar = args(4).column_vector_value();
+--- a/inst/sbn/Mcapacitors.m
++++ b/inst/sbn/Mcapacitors.m
+@@ -72,7 +72,7 @@
+       a = [0 0 1; 0 0 -1; 0 0 0];
+       b = [0 0 0;0 0 0;-C C 1];
+       c = [0 0 0]';
+-      break
++      #break
+ 
+     case "MULTICAP"
+       
+@@ -83,7 +83,7 @@
+       b = [zeros(n) zeros(n); -C eye(n)];
+       c = [zeros(2*n,1)]';
+       
+-      break  
++      #break  
+ 
+       ##NLC part
+     case "PDE_NMOS"
+@@ -111,7 +111,7 @@
+       a = [0 0 1; 0 0 -1; 0 0 0];
+       b = [0 0 0;0 0 0;C -C -1];
+       c = [0 0 Q-q]';
+-      break  
++      #break  
+ 
+     otherwise
+       error (["unknown section:" string])
+--- a/inst/sbn/Mcurrentsources.m
++++ b/inst/sbn/Mcurrentsources.m
+@@ -71,7 +71,7 @@
+       a = zeros(2);
+       b = a;
+       c = [I -I]';
+-      break
++      #break
+ 
+     case "VCCS"
+       ## Voltage controlled current source
+@@ -96,7 +96,7 @@
+       a = zeros(2);
+       b = a;
+       c = [I -I]';
+-      break
++      #break
+       
+     case "VCPS"
+       ## Voltage controlled power source
+--- a/inst/sbn/Mdiode.m
++++ b/inst/sbn/Mdiode.m
+@@ -74,7 +74,7 @@
+       a = zeros(2);
+       b = [geq -geq; -geq geq];
+       c = [I ; -I] ;
+-      break
++      #break
+ 
+     case "PDEsymmetric"
+ 
+@@ -102,7 +102,7 @@
+       b = [g -g; -g g];
+       c = [I ; -I] ;
+       
+-      break
++      #break
+ 
+     otherwise
+       error(["unknown section:" string])
+--- a/inst/sbn/Mnmosfet.m
++++ b/inst/sbn/Mnmosfet.m
+@@ -112,7 +112,7 @@
+ 	   0    0       0  0];
+       
+       c = [0 -id id 0]';
+-      break;
++      #break;
+ 
+     case "lincap"
+ 
+@@ -153,7 +153,7 @@
+       b = B+Jac;
+       c = res + B*[extvar;intvar] + C;
+ 
+-      break;
++      #break;
+     otherwise
+       error(["unknown option:" string]);
+   endswitch
+--- a/inst/sbn/Mpmosfet.m
++++ b/inst/sbn/Mpmosfet.m
+@@ -108,7 +108,7 @@
+            0    0       0   0 ];
+       
+       c =[0 -id id 0]';
+-      break;
++      #break;
+ 
+     case "lincap"
+       
+@@ -144,7 +144,7 @@
+       b = B+Jac;
+       c = res + B*[extvar;intvar] + C;
+ 
+-      break;
++      #break;
+ 
+     otherwise
+       error(["unknown option:" string]);
+--- a/inst/sbn/Mresistors.m
++++ b/inst/sbn/Mresistors.m
+@@ -75,7 +75,7 @@
+       b = [1 -1 ;-1 1]/R;
+       c = -[0; 0];
+       
+-      break
++      #break
+       ##NLCpart
+     case "THERMAL"
+ 
+@@ -100,7 +100,7 @@
+ 	   -2*(v1-v2)/RT -2*(v2-v1)/RT (v1-v2)^2*dRdT/RT^2];
+       c = [i1 i2 P]';
+       
+-      break;
++      #break;
+       
+       case "THERMAL1D"
+       	 
+@@ -123,7 +123,7 @@
+ 	 b = k*(S/h)*[B(ext,ext), B(ext,int); B(int,ext), B(int,int)];
+ 	 c = zeros(N+1,1);
+       
+-      break;
++      #break;
+       
+       otherwise
+       error (["unknown section:" string])
+--- a/inst/sbn/Mshichmanhodgesmosfet.m
++++ b/inst/sbn/Mshichmanhodgesmosfet.m
+@@ -141,7 +141,7 @@
+ 	c = [c1;c2];
+ 	
+ 
+-	break;
++	#break;
+ 
+       case "PMOS"
+ 	
+@@ -218,7 +218,7 @@
+ 	
+ 	c = [c1;c2];
+ 	
+-	break;
++	#break;
+ 
+       otherwise
+ 	error(["unknown option:" string]);
+@@ -329,4 +329,4 @@
+   dPdvgs  = -(gm*vds);
+   dPdvds  = -(gd*vds + ids);
+   
+-endfunction
+\ No newline at end of file
++endfunction
+--- a/inst/sbn/Mvoltagesources.m
++++ b/inst/sbn/Mvoltagesources.m
+@@ -92,7 +92,7 @@
+       a = zeros(3);
+       b = [0 0 1;0 0 -1;1 -1 0];
+       c = [0 0 -V];
+-      break
++      #break
+       ## NLC part
+     case "sinwave"
+       for ii=1:length(parameternames)
+@@ -105,7 +105,7 @@
+       a = zeros(3);
+       b = [0 0 1;0 0 -1;1 -1 0];
+       c = [0 0 -DV]' + b * [extvar;intvar];
+-      break
++      #break
+     
+     case "pwl"
+ 
+@@ -118,7 +118,7 @@
+       a = zeros(3);
+       b = [0 0 1;0 0 -1;1 -1 0];
+       c = [0 0 -DV]' + b * [extvar;intvar];
+-      break
++      #break
+       
+     case "squarewave"
+       for ii=1:length(parameternames)
+@@ -144,7 +144,7 @@
+       a = zeros(3);
+       b = [0 0 1;0 0 -1;1 -1 0];
+       c = [0 0 -DV]' + b * [extvar;intvar];
+-      break
++      #break
+ 
+     case "step"
+       for ii=1:length(parameternames)
+@@ -162,7 +162,7 @@
+       a = zeros(3);
+       b = [0 0 1;0 0 -1;1 -1 0];
+       c = [0 0 -DV]' + b * [extvar;intvar];
+-      break
++      #break
+       
+     case "VCVS"
+       K = 1;
+@@ -175,7 +175,7 @@
+       a = zeros(5);
+       b = [0 0 0 0 1;0 0 0 0 -1;0 0 0 0 0;0 0 0 0 0;1 -1 -K K 0];
+       c = zeros(5,1);
+-      break
++      #break
+     otherwise
+       error (["unknown section:" string])
+   endswitch
+--- a/DESCRIPTION
++++ b/DESCRIPTION
+@@ -5,6 +5,6 @@
+ Maintainer: Carlo de Falco, Culpo Massimiliano
+ Title: Octave Circuit Simulator
+ Description: Package for solving DC and transient electrical circuit equations 
+-Depends: octave (>= 3.0.0), odepkg
++Depends: octave (>= 3.0.0)
+ Autoload: no
+ License: GPLv2+
