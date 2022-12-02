@@ -8,7 +8,7 @@ Source0:	https://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
 Patch0:		%{name}-0.1.5-fix_build.patch
 License:	GPLv2+
 Group:		Sciences/Mathematics
-Url:		https://octave.sourceforge.io/%{octpkg}/
+Url:		https://packages.octave.org/%{octpkg}/
 
 BuildRequires:	octave-devel >= 3.0.0
 
@@ -19,8 +19,6 @@ Requires(postun): octave
 
 %description
 Package for solving DC and transient electrical circuit equations 
-
-This package is part of external Octave-Forge collection.
 
 %files
 %license COPYING
