@@ -27,6 +27,23 @@
      {}
    else if (args(4).length() == 5)
      intvar = args(4).column_vector_value();
+@@ -342,8 +342,6 @@ the output structures.\n\
+     error("Mshichmanhodgesmosfet: double type value expected as time instant.\n");
+   }
+ 
+-  if (!error_state)
+-    {
+       //FIXME: create enum of cases and use switch?
+       if (eltype == "NMOS")
+ 	{
+@@ -543,7 +541,6 @@ the output structures.\n\
+       else
+ 	error("Mshichmanhodgesmosfet: unknown element type.\n");
+ 
+-    }
+ 
+   return (retval);
+ }
 --- a/inst/sbn/Mcapacitors.m
 +++ b/inst/sbn/Mcapacitors.m
 @@ -72,7 +72,7 @@
@@ -258,3 +275,4 @@
 +Depends: octave (>= 3.0.0)
  Autoload: no
  License: GPLv2+
+
