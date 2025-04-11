@@ -3,7 +3,7 @@
 Summary:	Package for solving DC and transient electrical circuit equations
 Name:		octave-ocs
 Version:	0.1.5
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Sciences/Mathematics
 Url:		https://packages.octave.org/ocs/
